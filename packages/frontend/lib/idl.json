@@ -1,0 +1,1151 @@
+{
+  "address": "CVHSSRrVU6hB5sT1QFb2GpebGYRcjnZFY9L8S5guFaBf",
+  "metadata": {
+    "name": "programs_doudizhu",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Doudizhu Solana on-chain contract"
+  },
+  "instructions": [
+    {
+      "name": "cancel_room",
+      "docs": [
+        "超时取消：任何人可调用，要求房间处于 WaitingToStart（phase=0）且超过 300 秒未开局。",
+        "效果：退还所有已存款玩家的本金，设置 phase=4（Cancelled）。"
+      ],
+      "discriminator": [
+        91,
+        107,
+        215,
+        178,
+        200,
+        224,
+        241,
+        237
+      ],
+      "accounts": [
+        {
+          "name": "room",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  111,
+                  111,
+                  109
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "room_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "escrow",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  115,
+                  99,
+                  114,
+                  111,
+                  119
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "room_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "escrow_token_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "escrow"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "player0_token_account",
+          "writable": true
+        },
+        {
+          "name": "player1_token_account",
+          "writable": true
+        },
+        {
+          "name": "player2_token_account",
+          "writable": true
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "caller",
+          "docs": [
+            "任何账户均可触发超时取消"
+          ],
+          "signer": true
+        },
+        {
+          "name": "token_program"
+        },
+        {
+          "name": "associated_token_program",
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "room_id",
+          "type": {
+            "array": [
+              "u8",
+              16
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "dispute_vote",
+      "docs": [
+        "争议投票：玩家可对进行中的对局发起争议投票。",
+        "2-of-3 多数触发均分退款（无手续费），余数归 player0。"
+      ],
+      "discriminator": [
+        238,
+        241,
+        19,
+        141,
+        112,
+        220,
+        44,
+        92
+      ],
+      "accounts": [
+        {
+          "name": "room",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  111,
+                  111,
+                  109
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "room_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "escrow",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  115,
+                  99,
+                  114,
+                  111,
+                  119
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "room_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "escrow_token_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "escrow"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "player0_token_account",
+          "writable": true
+        },
+        {
+          "name": "player1_token_account",
+          "writable": true
+        },
+        {
+          "name": "player2_token_account",
+          "writable": true
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "voter",
+          "docs": [
+            "必须是 room.players 中的一员"
+          ],
+          "signer": true
+        },
+        {
+          "name": "token_program"
+        },
+        {
+          "name": "associated_token_program",
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "room_id",
+          "type": {
+            "array": [
+              "u8",
+              16
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "initialize_room",
+      "docs": [
+        "创建游戏房间：初始化 RoomAccount、EscrowAccount、托管 Token Account。",
+        "",
+        "参数：",
+        "room_id         — 16 字节房间唯一标识",
+        "bet_tier        — 档位（0-3）",
+        "base_score      — 该档位底分（DDZ，decimals=0）",
+        "player_pubkeys  — 恰好三个不同玩家地址",
+        "relay_authority — 授权调用 settle 的中继器钱包"
+      ],
+      "discriminator": [
+        216,
+        42,
+        137,
+        161,
+        61,
+        72,
+        154,
+        238
+      ],
+      "accounts": [
+        {
+          "name": "room",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  111,
+                  111,
+                  109
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "room_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "escrow",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  115,
+                  99,
+                  114,
+                  111,
+                  119
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "room_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "escrow_token_account",
+          "docs": [
+            "托管 Token Account：ATA(escrow_pda, mint)，escrow PDA 为 authority"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "escrow"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "token_program"
+        },
+        {
+          "name": "associated_token_program",
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "room_id",
+          "type": {
+            "array": [
+              "u8",
+              16
+            ]
+          }
+        },
+        {
+          "name": "bet_tier",
+          "type": "u8"
+        },
+        {
+          "name": "base_score",
+          "type": "u64"
+        },
+        {
+          "name": "player_pubkeys",
+          "type": {
+            "array": [
+              "pubkey",
+              3
+            ]
+          }
+        },
+        {
+          "name": "relay_authority",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "join_and_deposit",
+      "docs": [
+        "玩家加入并存入押注金额。",
+        "",
+        "验证：调用者必须是 RoomAccount 登记的三个玩家之一。",
+        "效果：从玩家 Token Account 转入 base_score 到 EscrowAccount。",
+        "三人全部存入后，phase 自动推进到 Bidding（1）。"
+      ],
+      "discriminator": [
+        32,
+        229,
+        252,
+        236,
+        241,
+        154,
+        160,
+        149
+      ],
+      "accounts": [
+        {
+          "name": "room",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  111,
+                  111,
+                  109
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "room_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "escrow",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  115,
+                  99,
+                  114,
+                  111,
+                  119
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "room_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "escrow_token_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "escrow"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "player_token_account",
+          "writable": true
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "player",
+          "signer": true
+        },
+        {
+          "name": "token_program"
+        },
+        {
+          "name": "associated_token_program",
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "room_id",
+          "type": {
+            "array": [
+              "u8",
+              16
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "settle",
+      "docs": [
+        "结算：按倍率和身份系数计算分配，2% 进 treasury。",
+        "",
+        "身份系数：地主=2，农民=1。",
+        "公式：unit = base_score × final_multiplier",
+        "地主胜：各农民扣 min(unit×1, 存款)，地主得总扣款×98%；",
+        "农民胜：地主扣 min(unit×2, 存款)，两农民均分×98%。",
+        "安全：只有 relay_authority 可调用；is_settled 防重入。"
+      ],
+      "discriminator": [
+        175,
+        42,
+        185,
+        87,
+        144,
+        131,
+        102,
+        212
+      ],
+      "accounts": [
+        {
+          "name": "room",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  111,
+                  111,
+                  109
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "room_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "escrow",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  115,
+                  99,
+                  114,
+                  111,
+                  119
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "room_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "escrow_token_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "escrow"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "player0_token_account",
+          "docs": [
+            "三个玩家的 Token Account（按下标顺序）"
+          ],
+          "writable": true
+        },
+        {
+          "name": "player1_token_account",
+          "writable": true
+        },
+        {
+          "name": "player2_token_account",
+          "writable": true
+        },
+        {
+          "name": "treasury_token_account",
+          "docs": [
+            "平台手续费账户（2% 归此）"
+          ],
+          "writable": true
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "relay",
+          "docs": [
+            "必须与 room.relay_authority 一致"
+          ],
+          "signer": true
+        },
+        {
+          "name": "token_program"
+        },
+        {
+          "name": "associated_token_program",
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "room_id",
+          "type": {
+            "array": [
+              "u8",
+              16
+            ]
+          }
+        },
+        {
+          "name": "winner_index",
+          "type": "u8"
+        },
+        {
+          "name": "landlord_index",
+          "type": "u8"
+        },
+        {
+          "name": "final_multiplier",
+          "type": "u16"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "EscrowAccount",
+      "discriminator": [
+        36,
+        69,
+        48,
+        18,
+        128,
+        225,
+        125,
+        135
+      ]
+    },
+    {
+      "name": "RoomAccount",
+      "discriminator": [
+        112,
+        123,
+        57,
+        103,
+        251,
+        206,
+        210,
+        48
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidBetTier",
+      "msg": "Invalid bet tier: must be 0-3"
+    },
+    {
+      "code": 6001,
+      "name": "DuplicatePlayers",
+      "msg": "Duplicate player addresses"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidBaseScore",
+      "msg": "Base score must be greater than 0"
+    },
+    {
+      "code": 6003,
+      "name": "PlayerNotInRoom",
+      "msg": "Player is not registered in this room"
+    },
+    {
+      "code": 6004,
+      "name": "AlreadyDeposited",
+      "msg": "Player has already deposited"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidPhase",
+      "msg": "Room is not in the expected phase"
+    },
+    {
+      "code": 6006,
+      "name": "AlreadySettled",
+      "msg": "Escrow has already been settled"
+    },
+    {
+      "code": 6007,
+      "name": "NotAllDeposited",
+      "msg": "Not all players have deposited yet"
+    },
+    {
+      "code": 6008,
+      "name": "UnauthorizedRelay",
+      "msg": "Caller is not the authorized relay"
+    },
+    {
+      "code": 6009,
+      "name": "InvalidWinnerIndex",
+      "msg": "Winner index must be 0, 1, or 2"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidLandlordIndex",
+      "msg": "Landlord index must be 0, 1, or 2"
+    },
+    {
+      "code": 6011,
+      "name": "InvalidMultiplier",
+      "msg": "Final multiplier must be greater than 0"
+    },
+    {
+      "code": 6012,
+      "name": "Overflow",
+      "msg": "Arithmetic overflow"
+    },
+    {
+      "code": 6013,
+      "name": "GameAlreadyStarted",
+      "msg": "Game has already started; use dispute_vote for in-progress disputes"
+    },
+    {
+      "code": 6014,
+      "name": "NotAPlayer",
+      "msg": "Caller is not a registered player in this room"
+    },
+    {
+      "code": 6015,
+      "name": "AlreadyVoted",
+      "msg": "Player has already cast a dispute vote"
+    },
+    {
+      "code": 6016,
+      "name": "TimeoutNotReached",
+      "msg": "Timeout period has not elapsed yet (requires >300s)"
+    }
+  ],
+  "types": [
+    {
+      "name": "EscrowAccount",
+      "docs": [
+        "资金托管账户（纯元数据，实际代币在关联的 Token Account）",
+        "PDA seeds: [\"escrow\", room_id]"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "room_id",
+            "docs": [
+              "关联的房间 ID"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                16
+              ]
+            }
+          },
+          {
+            "name": "deposits",
+            "docs": [
+              "各玩家实际存入金额（下标与 RoomAccount.players 对应）"
+            ],
+            "type": {
+              "array": [
+                "u64",
+                3
+              ]
+            }
+          },
+          {
+            "name": "deposit_flags",
+            "docs": [
+              "位掩码：bit i = 1 表示 players[i] 已存入"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "is_settled",
+            "docs": [
+              "是否已结算（防止重复调用 settle）"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "PDA bump seed（供 CPI 签名使用）"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RoomAccount",
+      "docs": [
+        "游戏房间状态账户",
+        "PDA seeds: [\"room\", room_id]"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "room_id",
+            "docs": [
+              "房间唯一标识（UUID 去连字符后的 16 字节）"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                16
+              ]
+            }
+          },
+          {
+            "name": "players",
+            "docs": [
+              "三个玩家的钱包地址（下标固定，贯穿全局）"
+            ],
+            "type": {
+              "array": [
+                "pubkey",
+                3
+              ]
+            }
+          },
+          {
+            "name": "bet_tier",
+            "docs": [
+              "档位：0=SMALL 1=MEDIUM 2=LARGE 3=WHALE"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "base_score",
+            "docs": [
+              "该档位底分（DDZ token，decimals=0）"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "phase",
+            "docs": [
+              "游戏阶段：0=WaitingToStart 1=Bidding 2=Playing 3=Ended 4=Cancelled"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "multiplier",
+            "docs": [
+              "当前倍率（初始=1），由服务器在 settle 时传入"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "landlord_index",
+            "docs": [
+              "地主座位号（0/1/2），0xFF=未确定"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "winner_index",
+            "docs": [
+              "胜者座位号（0/1/2），0xFF=未结算"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "created_at",
+            "docs": [
+              "房间创建时间戳，供超时退款（cancel_room）使用"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "relay_authority",
+            "docs": [
+              "授权中继器钱包，只有此账户可调用 settle"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "dispute_votes",
+            "docs": [
+              "争议投票位：players[i] 投票后置 true，2-of-3 触发均分退款"
+            ],
+            "type": {
+              "array": [
+                "bool",
+                3
+              ]
+            }
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "PDA bump seed"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ]
+}

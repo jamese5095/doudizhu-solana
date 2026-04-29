@@ -1,0 +1,11 @@
+node_modules/
+.next/
+dist/
+target/
+.anchor/
+.DS_Store
+*.swp
+*.swo
+.env
+.env.local
+test-wallets/*.json

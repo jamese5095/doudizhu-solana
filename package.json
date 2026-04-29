@@ -1,0 +1,8 @@
+{
+  "name": "doudizhu-solana",
+  "private": true,
+  "scripts": {
+    "setup:devnet": "cd server && npx tsx scripts/devnet-setup.ts",
+    "open:game":    "cd server && npx tsx scripts/open-game.ts"
+  }
+}

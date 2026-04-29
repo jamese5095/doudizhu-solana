@@ -1,0 +1,145 @@
+@import "tailwindcss";
+
+@theme {
+  --color-lobby-bg:    #ece7df;
+  --color-card-bg:     #f4f1ec;
+  --color-card-border: #ddd8d0;
+  --color-input-bg:    #f0ede7;
+  --color-gold:        #b8960b;
+  --color-gold-dim:    #9a7e09;
+  --color-text-primary: #504a44;
+  --color-text-muted:   #8a847e;
+  --color-text-faint:   #b0aaa3;
+  --color-accent:       #6d9a80;
+  --color-accent-dim:   #5a8069;
+}
+
+:root {
+  --lobby-bg:    #ece7df;
+  --card-bg:     #f4f1ec;
+  --card-border: #ddd8d0;
+  --gold:        #b8960b;
+}
+
+html, body {
+  background-color: #ece7df;
+  color: #504a44;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── 全局滚动条 ─────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.08); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.14); }
+
+/* ── 大厅背景 ──────────────────────────────────────────── */
+.lobby-bg {
+  background:
+    radial-gradient(ellipse at 30% -10%, rgba(109, 154, 128, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 90%, rgba(184, 150, 11, 0.04) 0%, transparent 45%),
+    #ece7df;
+}
+
+/* ── 动画 keyframes ─────────────────────────────────────── */
+@keyframes float-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slide-in {
+  from { opacity: 0; transform: translateX(-12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 6px rgba(109, 154, 128, 0.1); }
+  50%      { box-shadow: 0 0 14px rgba(109, 154, 128, 0.16); }
+}
+@keyframes gold-shine {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+@keyframes card-deal {
+  from { opacity: 0; transform: translateY(-20px) rotate(-6deg) scale(0.85); }
+  to   { opacity: 1; transform: translateY(0) rotate(0) scale(1); }
+}
+@keyframes badge-pop {
+  0%   { transform: scale(0.7); opacity: 0; }
+  60%  { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes shimmer {
+  0%   { background-position: -100% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-float-up  { animation: float-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.animate-slide-in  { animation: slide-in 0.3s ease-out both; }
+.animate-glow      { animation: glow-pulse 2.5s ease-in-out infinite; }
+.animate-card-deal { animation: card-deal 0.4s ease-out both; }
+.animate-badge-pop { animation: badge-pop 0.3s ease-out both; }
+
+/* ── 玻璃质感面板 (navbar) ─────────────────────────────── */
+.glass-panel {
+  background: rgba(244, 241, 236, 0.85);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  backdrop-filter: blur(16px);
+}
+
+/* ── 金色渐变文字 ───────────────────────────────────────── */
+.text-gold-gradient {
+  background: linear-gradient(90deg, #b8960b, #caa820, #b8960b);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── 桌布纹理 ───────────────────────────────────────────── */
+.table-felt {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(109, 154, 128, 0.04) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 100%, rgba(109, 154, 128, 0.02) 0%, transparent 40%),
+    var(--lobby-bg);
+}
+
+/* ── 按钮 glow 效果 ─────────────────────────────────────── */
+.btn-glow {
+  position: relative;
+  overflow: hidden;
+}
+.btn-glow::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, transparent, rgba(109, 154, 128, 0.08), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 3s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+.btn-glow > * { position: relative; z-index: 1; }
+
+/* ── 卡片 ─────────────────────────────────────────────── */
+.card {
+  background: #f4f1ec;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  border-radius: 1rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+/* ── 选中文本样式 ───────────────────────────────────────── */
+::selection {
+  background: rgba(109, 154, 128, 0.18);
+  color: #3a3530;
+}
+
+/* ── Input focus ring ──────────────────────────────────── */
+input:focus {
+  outline: none;
+  border-color: rgba(109, 154, 128, 0.35) !important;
+  box-shadow: 0 0 0 3px rgba(109, 154, 128, 0.06);
+}
